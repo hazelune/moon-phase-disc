@@ -3,11 +3,13 @@ import os
 import json
 from dotenv import load_dotenv
 
+from moon_phase import nasa_api_request
+
 load_dotenv("./env/.env")
 TOKEN = os.getenv('TOKEN')
-USER_URL= "https://discord.com/api/v10/users/@me/settings"
+USER_URL = "https://discord.com/api/v10/users/@me/settings"
 
-def change_status(text, emoji):
+def change_status(emoji, text = None):
     headers = {
             'Authorization': TOKEN,
             'Content-Type': 'application/json'
@@ -26,7 +28,8 @@ def change_status(text, emoji):
     response.raise_for_status()
 
 def main():
-    change_status('test', '🌔')
+    current_phase = nasa_api_request()
+    change_status(current_phase)
 
 if __name__ == "__main__":
     main()
